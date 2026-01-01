@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Todo App</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; }
+    input[type="text"] { padding: 10px; width: 70%; font-size: 16px; }
+    button { padding: 10px 20px; font-size: 16px; }
+    ul { list-style: none; padding: 0; }
+    li { padding: 10px; background: #f0f0f0; margin: 5px 0; display: flex; justify-content: space-between; align-items: center; }
+    .done { text-decoration: line-through; opacity: 0.6; }
+  </style>
+</head>
+<body>
+  <h1>My Todo List</h1>
+  <input type="text" id="task-input" placeholder="Add a new task...">
+  <button id="add-btn">Add Task</button>
+
+  <ul id="task-list"></ul>
+
+  <script>
+  const input = document.getElementById('task-input');
+  const addBtn = document.getElementById('add-btn');
+  const list = document.getElementById('task-list');
+
+  // Key name for saving in localStorage
+  const STORAGE_KEY = 'my-todo-tasks';
+
+  // Load tasks from localStorage when the page loads
+  function loadTasks() {
+    const savedTasks = localStorage.getItem(STORAGE_KEY);
+    if (savedTasks) {
+      const tasks = JSON.parse(savedTasks); // Convert string back to array
+      tasks.forEach(task => createTaskElement(task.text, task.done));
+    }
+  }
+
+  // Save current tasks to localStorage
+  function saveTasks() {
+    const tasks = [];
+    document.querySelectorAll('#task-list li').forEach(li => {
+      const text = li.querySelector('span').textContent;
+      const done = li.querySelector('span').classList.contains('done');
+      tasks.push({ text, done });
+    });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+  }
+
+  // Create a task element and add it to the list
+  function createTaskElement(text, done = false) {
+  const li = document.createElement('li');
+
+  li.innerHTML = `
+    <label>
+      <input type="checkbox" ${done ? 'checked' : ''} />
+      <span class="task-text ${done ? 'done' : ''}">${text}</span>
+    </label>
+    <button>Delete</button>
+  `;
+
+  // Checkbox: toggle done state
+  const checkbox = li.querySelector('input[type="checkbox"]');
+  checkbox.addEventListener('change', () => {
+    li.querySelector('.task-text').classList.toggle('done');
+    saveTasks();
+  });
+
+  // Restore "done" status
+  if (done) {
+    li.querySelector('.task-text').classList.add('done');
+  }
+
+  // Toggle done by clicking the text
+  li.querySelector('.task-text').addEventListener('click', () => {
+    li.querySelector('.task-text').classList.toggle('done');
+    saveTasks();
+  });
+
+  // Delete button
+  li.querySelector('button').addEventListener('click', () => {
+    li.remove();
+    saveTasks();
+  });
+
+  // Add the new list item to the DOM
+  list.appendChild(li);
+
+  return li;
+}
+  // Add new task
+  function addTask() {
+    const text = input.value.trim();
+    if (!text) return;
+
+    createTaskElement(text);
+    input.value = '';
+    saveTasks(); // Save after adding
+  }
+
+  // Event listeners
+  addBtn.addEventListener('click', addTask);
+  input.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') addTask();
+  });
+
+  // Load any saved tasks when page starts
+  loadTasks();
+</script>
+</body>
+</html>
