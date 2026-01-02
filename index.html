@@ -12,6 +12,32 @@
     ul { list-style: none; padding: 0; }
     li { padding: 10px; background: #f0f0f0; margin: 5px 0; display: flex; justify-content: space-between; align-items: center; }
     .done { text-decoration: line-through; opacity: 0.6; }
+
+    /* Desktop: keep input and buttons on one line */
+@media (min-width: 600px) {
+  /* Wrap input and buttons in a flex container if not already */
+  #input-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: nowrap;
+  }
+
+  input[type="text"] {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  #add-btn, #clear-btn {
+    white-space: nowrap;
+  }
+}
+
+/* Optional: make Clear button slightly smaller so it fits better */
+#clear-btn {
+  padding: 10px 15px;
+  font-size: 14px;
+}
   </style>
 </head>
 <body>
@@ -19,10 +45,11 @@
   <h2 style="color: #666; font-weight: normal; margin: 20px 0 40px; text-align: center;">
   A learning project by Antigone Darling — full-stack version with Node.js backend coming soon
 </h2>
+<div id="input-container">
   <input type="text" id="task-input" placeholder="Add a new task...">
   <button id="add-btn">Add Task</button>
   <button id="clear-btn" style="margin-left: 10px; background: #ff4444; color: white;">Clear All Tasks</button>
-
+</div>
   <ul id="task-list"></ul>
 
   <script>
