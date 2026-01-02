@@ -12,6 +12,18 @@
     ul { list-style: none; padding: 0; }
     li { padding: 10px; background: #f0f0f0; margin: 5px 0; display: flex; justify-content: space-between; align-items: center; }
     .done { text-decoration: line-through; opacity: 0.6; }
+   body {
+  -webkit-tap-highlight-color: transparent;
+}
+
+input[type="text"], button {
+  font-size: 16px;
+  touch-action: manipulation;
+}
+
+button {
+  min-height: 44px;
+}
     footer a {
   text-decoration: none; /* No underline normally */
 }
