@@ -12,6 +12,13 @@
     ul { list-style: none; padding: 0; }
     li { padding: 10px; background: #f0f0f0; margin: 5px 0; display: flex; justify-content: space-between; align-items: center; }
     .done { text-decoration: line-through; opacity: 0.6; }
+    footer a {
+  text-decoration: none; /* No underline normally */
+}
+
+footer a:hover {
+  text-decoration: underline; /* Underline only on hover */
+}
 
     /* Desktop: keep input and buttons on one line */
 @media (min-width: 600px) {
