@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Todo App</title>
+  <title>Antigone's Todo App</title>
+  <meta name="description" content="A persistent todo list app built by Antigone Darling as a learning project. Full-stack Node.js version in progress.">
   <style>
     body { font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; }
     input[type="text"] { padding: 10px; width: 70%; font-size: 16px; }
@@ -15,6 +16,9 @@
 </head>
 <body>
   <h1>My Todo List</h1>
+  <h2 style="color: #666; font-weight: normal; margin: 20px 0 40px; text-align: center;">
+  A learning project by Antigone Darling — full-stack version with Node.js backend coming soon
+</h2>
   <input type="text" id="task-input" placeholder="Add a new task...">
   <button id="add-btn">Add Task</button>
   <button id="clear-btn" style="margin-left: 10px; background: #ff4444; color: white;">Clear All Tasks</button>
@@ -118,5 +122,8 @@ clearBtn.addEventListener('click', () => {
   // Load any saved tasks when page starts
   loadTasks();
 </script>
+<footer style="margin-top: 80px; padding: 20px; text-align: center; color: #888; font-size: 14px; border-top: 1px solid #eee;">
+  Built by <a href="https://antigonedarling.com" style="color: #666; text-decoration: none;">Antigone Darling</a> • January 2026
+</footer>
 </body>
 </html>
