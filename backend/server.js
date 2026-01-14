@@ -4,6 +4,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
+const Task = require('./models/Task');
+console.log('Task model loaded successfully');
+
 console.log('MONGO_URI is:', process.env.MONGO_URI)
 
 const app = express();
