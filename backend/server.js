@@ -1,11 +1,10 @@
-console.log(process.env.MONGO_URI)
+require('dotenv').config()
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const dotenv = require('dotenv');
 
-// Load environment variables from .env file
-dotenv.config();
+console.log('MONGO_URI is:', process.env.MONGO_URI)
 
 const app = express();
 const PORT = process.env.PORT || 5000;
