@@ -5,28 +5,61 @@
   const addBtn = document.getElementById('add-btn');
   const list = document.getElementById('task-list');
 
-  // Key name for saving in localStorage
-  const STORAGE_KEY = 'my-todo-tasks';
+// API base URL (change to production URL later)
+const API_BASE = 'http://localhost:5000/api/tasks';
 
-  // Load tasks from localStorage when the page loads
-  function loadTasks() {
-    const savedTasks = localStorage.getItem(STORAGE_KEY);
-    if (savedTasks) {
-      const tasks = JSON.parse(savedTasks); // Convert string back to array
-      tasks.forEach(task => createTaskElement(task.text, task.done));
-    }
+// Load tasks from backend when page loads
+async function loadTasks() {
+  try {
+    const res = await fetch(API_BASE);
+    if (!res.ok) throw new Error('Failed to load tasks');
+    const tasks = await res.json();
+    list.innerHTML = ''; // Clear current list
+    tasks.forEach(task => createTaskElement(task.text, task.done, task._id));
+  } catch (err) {
+    console.error('Error loading tasks:', err);
+    alert('Could not load tasks from server');
   }
+}
 
-  // Save current tasks to localStorage
-  function saveTasks() {
-    const tasks = [];
-    document.querySelectorAll('#task-list li').forEach(li => {
-      const text = li.querySelector('span').textContent;
-      const done = li.querySelector('span').classList.contains('done');
-      tasks.push({ text, done });
+// Save a new task to backend
+async function saveTask(text) {
+  try {
+    const res = await fetch(API_BASE, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text })
     });
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+    if (!res.ok) throw new Error('Failed to save task');
+    const newTask = await res.json();
+    createTaskElement(newTask.text, newTask.done); // Add to DOM
+  } catch (err) {
+    console.error('Error saving task:', err);
+    alert('Could not save task - server issue');
   }
+}
+
+// Update task done status
+async function updateTask(id, done) {
+  try {
+    await fetch(`${API_BASE}/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ done })
+    });
+  } catch (err) {
+    console.error('Error updating task:', err);
+  }
+}
+
+// Delete task from backend
+async function deleteTask(id) {
+  try {
+    await fetch(`${API_BASE}/${id}`, { method: 'DELETE' });
+  } catch (err) {
+    console.error('Error deleting task:', err);
+  }
+}
 
   // Create a task element and add it to the list
   function createTaskElement(text, done = false) {
