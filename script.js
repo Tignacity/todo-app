@@ -1,4 +1,6 @@
- <script>
+ document.addEventListener('DOMContentLoaded', () => {
+ 
+
   const input = document.getElementById('task-input');
   const addBtn = document.getElementById('add-btn');
   const list = document.getElementById('task-list');
@@ -94,4 +96,6 @@ clearBtn.addEventListener('click', () => {
 
   // Load any saved tasks when page starts
   loadTasks();
-</script>
+
+
+});
