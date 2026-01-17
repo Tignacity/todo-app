@@ -16,9 +16,20 @@ const PORT = process.env.PORT || 5000;
 app.use(cors()); // Allows frontend to connect
 app.use(express.json()); // Parses JSON requests
 
-// Basic route to test
+// Health Check
 app.get('/', (req, res) => {
   res.send('Backend server is running!');
+});
+
+app.get('/todos', async (req, res) => {
+  const todos = await Todo.find();
+  res.json(todos);
+});
+
+app.post('/todos', async (req, res) => {
+  const newTodo = new Todo({ text: req.body.text });
+  await newTodo.save();
+  res.status(201).json(newTodo);
 });
 
 // Connect to MongoDB (we'll add this next)
