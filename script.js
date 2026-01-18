@@ -6,7 +6,7 @@
   const list = document.getElementById('task-list');
 
 // API base URL (change to production URL later)
-const API_BASE = 'http://localhost:5000/api/tasks';
+const API_BASE = 'http://localhost:5000/task';
 
 // Load tasks from backend when page loads
 async function loadTasks() {
@@ -120,12 +120,19 @@ async function deleteTask(id) {
 
 const clearBtn = document.getElementById('clear-btn');
 
-clearBtn.addEventListener('click', () => {
+clearBtn.addEventListener('click', async () => {
   if (confirm('Are you sure you want to delete all tasks? This cannot be undone.')) {
-    localStorage.removeItem(STORAGE_KEY);
-    list.innerHTML = ''; // Clears the visible list
+    try {
+      const res = await fetch(API_BASE, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Failed to delete all tasks');
+      list.innerHTML = ''; // Clear the visible list
+    } catch (err) {
+      console.error('Error clearing tasks:', err);
+      alert('Could not clear tasks from server');
+    }
   }
 });
+
 
   // Load any saved tasks when page starts
   loadTasks();
