@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const list = document.getElementById('task-list');
   const clearBtn = document.getElementById('clear-btn');
 
-  const API_BASE = 'http://localhost:5000/api/tasks';
+  const API_BASE = 'https://todo-app-x7ci.onrender.com/api/tasks';
 
   async function loadTasks() {
     try {
